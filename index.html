@@ -571,17 +571,89 @@
                 </script>
             </div>
 
-            <footer class="w-full mt-20 pb-20 opacity-0 animate-[entrance-pop_1s_5s_forwards]">
-                <div class="flex flex-col items-center gap-8 relative">
-                    <div class="flex items-center gap-5 w-full max-w-2xl px-4">
-                        <div class="h-px flex-1 bg-gradient-to-r from-transparent to-hb-accent/30"></div>
-                        <i class="fa-solid fa-heart text-hb-accent text-2xl animate-pulse"></i>
-                        <div class="h-px flex-1 bg-gradient-to-l from-transparent to-hb-accent/30"></div>
-                    </div>
-                    <div class="text-center space-y-4 px-4">
-                        <h2 class="font-dancing text-4xl md:text-6xl text-hb-accent font-bold">Uma Nandini Gupta</h2>
-                        <p class="font-poppins text-gray-400 text-sm md:text-xl uppercase tracking-[0.4em]">Celebrating
-                            20 January 💖</p>
+            <footer class="w-full mt-24 pb-12 opacity-0 animate-[entrance-pop_1s_5s_forwards]">
+                <div class="container mx-auto px-4 max-w-6xl">
+                    <div
+                        class="glass-card rounded-[3rem] p-8 md:p-14 shadow-2xl relative overflow-hidden border border-white/40">
+                        <!-- Background Glows -->
+                        <div class="absolute -top-10 -right-10 w-64 h-64 bg-hb-accent/10 rounded-full blur-[80px]">
+                        </div>
+                        <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-purple-500/10 rounded-full blur-[80px]">
+                        </div>
+
+                        <div class="flex flex-col md:flex-row justify-between items-center gap-12 relative z-10">
+                            <!-- Brand/Name Section -->
+                            <div class="text-center md:text-left">
+                                <h2
+                                    class="font-dancing text-5xl md:text-7xl text-hb-accent font-bold mb-4 drop-shadow-md">
+                                    Uma Nandini Gupta
+                                </h2>
+                                <div class="flex flex-col md:flex-row items-center gap-3 md:gap-6">
+                                    <p class="font-poppins text-gray-500 text-sm md:text-lg uppercase tracking-[0.3em]">
+                                        Celebrating 20 January
+                                    </p>
+                                    <span class="hidden md:block w-2 h-2 bg-hb-accent/30 rounded-full"></span>
+                                    <div class="flex items-center gap-2 text-hb-accent/60">
+                                        <i class="fa-solid fa-cake-candles animate-bounce"></i>
+                                        <span class="font-sriracha text-sm">Forever Young</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quote Section -->
+                            <div class="flex flex-col items-center md:items-end gap-8">
+                                <div class="flex gap-4">
+                                    <div
+                                        class="w-14 h-14 bg-white/60 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 hover:rotate-6 transition-all cursor-pointer group">
+                                        <i
+                                            class="fa-solid fa-heart text-hb-accent text-xl group-hover:scale-125 transition-transform duration-300"></i>
+                                    </div>
+                                    <div
+                                        class="w-14 h-14 bg-white/60 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 hover:-rotate-6 transition-all cursor-pointer group">
+                                        <i
+                                            class="fa-solid fa-star text-yellow-500 text-xl group-hover:scale-125 transition-transform duration-300"></i>
+                                    </div>
+                                    <div
+                                        class="w-14 h-14 bg-white/60 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 hover:rotate-6 transition-all cursor-pointer group">
+                                        <i
+                                            class="fa-solid fa-sparkles text-purple-500 text-xl group-hover:scale-125 transition-transform duration-300"></i>
+                                    </div>
+                                </div>
+
+                                <div class="text-center md:text-right max-w-sm">
+                                    <p class="font-dancing text-2xl md:text-3xl text-gray-700 leading-relaxed">
+                                        "Made with love & magic for the world's most beautiful soul." 💖
+                                    </p>
+                                    <p
+                                        class="font-poppins text-xs md:text-sm text-gray-400 mt-4 tracking-widest uppercase">
+                                        &copy; 2026 • Crafted with Infinite Love
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Bar -->
+                        <div
+                            class="mt-12 pt-8 border-t border-gray-200/30 flex flex-col md:flex-row justify-between items-center gap-6">
+                            <div class="flex items-center gap-4">
+                                <div class="px-4 py-1.5 bg-hb-accent/10 rounded-full border border-hb-accent/20">
+                                    <span
+                                        class="text-hb-accent font-poppins text-xs font-semibold uppercase tracking-wider">Happy
+                                        Birthday</span>
+                                </div>
+                                <div class="px-4 py-1.5 bg-purple-500/10 rounded-full border border-purple-500/20">
+                                    <span
+                                        class="text-purple-500 font-poppins text-xs font-semibold uppercase tracking-wider">Special
+                                        Edition</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-8 text-gray-400">
+                                <i class="fa-solid fa-gift hover:text-hb-accent transition-colors cursor-pointer"></i>
+                                <i class="fa-solid fa-gem hover:text-hb-accent transition-colors cursor-pointer"></i>
+                                <i class="fa-solid fa-crown hover:text-hb-accent transition-colors cursor-pointer"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </footer>
@@ -774,9 +846,6 @@
             $(element).addClass('out');
             extinguishedCount++;
             if (extinguishedCount === 3) {
-                // Launch Fireworks immediately
-                triggerFireworks();
-
                 // Wait 4 seconds before showing the message
                 setTimeout(() => {
                     const randomQuote = wishQuotes[Math.floor(Math.random() * wishQuotes.length)];
