@@ -3,274 +3,625 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="title" content="Happy Birthday Website 2.0 | Aoudumber Bade">
-    <meta name="github" content="https://github.com/Aoudumber-Bade">
-    <title>Mehwish Birthday</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Birthday Surprise | Uma Nandini Gupta</title>
+
+    <!-- External Assets -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@300;400;600&family=Titan+One&family=Sriracha&display=swap"
         rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'hb-pink': '#feecea',
+                        'hb-dark-pink': '#ff4d6d',
+                        'hb-text-pink': '#FF7882',
+                        'hb-accent': '#ff1a4a',
+                        'hb-gold': '#FFD700',
+                    },
+                    fontFamily: {
+                        dancing: ['"Dancing Script"', 'cursive'],
+                        poppins: ['Poppins', 'sans-serif'],
+                        titan: ['"Titan One"', 'cursive'],
+                        sriracha: ['Sriracha', 'cursive'],
+                    },
+                    animation: {
+                        'float-up': 'floatUp 15s linear infinite',
+                        'sway': 'sway 3s ease-in-out infinite alternate',
+                        'spin-slow': 'spin 12s linear infinite',
+                        'pulse-gentle': 'pulse 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        floatUp: {
+                            '0%': { transform: 'translateY(100vh) rotate(0deg)' },
+                            '100%': { transform: 'translateY(-100vh) rotate(360deg)' }
+                        },
+                        sway: {
+                            '0%': { transform: 'rotate(-5deg)' },
+                            '100%': { transform: 'rotate(5deg)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow-premium {
+                text-shadow: 2px 2px #333, -1px -1px #333, 1px -1px #333, -1px 1px #333, 4px 6px 12px rgba(0,0,0,0.15);
+            }
+            .text-shimmer {
+                background: linear-gradient(to right, #ff1a4a 20%, #ff8c00 40%, #ff1a4a 60%, #ff8c00 80%);
+                background-size: 200% auto;
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                animation: shine 4s linear infinite;
+            }
+              .anim-forwards {
+    animation-fill-mode: forwards;
+  }
+
+            @keyframes shine {
+                to { background-position: 200% center; }
+            }
+
+            .glass-card {
+                background: rgba(255, 255, 255, 0.65);
+                backdrop-filter: blur(16px);
+                border: 1px solid rgba(255, 255, 255, 0.5);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            }
+            
+            .tilt-card {
+                transform-style: preserve-3d;
+                perspective: 1000px;
+            }
+            
+            .iridescent-border {
+                position: relative;
+                padding: 3px;
+                background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1, #ff9a9e);
+                background-size: 200% auto;
+                animation: shimmer 4s linear infinite;
+                border-radius: 2.5rem;
+            }
+        }
+        
+        /* Premium Scroll Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 6px;
+            background: linear-gradient(to right, #ff1a4a, #ffdb58, #ff8c00);
+            z-index: 10001;
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 10vw, 7rem);
+            line-height: 1.1;
+        }
+
+        /* Balloon & Parallax Decorations */
+        .decoration {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(1px);
+            opacity: 0.4;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            opacity: 0.5;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            z-index: 0;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        /* Special Scratch Card Effect */
+        #scratch-canvas {
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        /* Modal Architecture */
+        #modal-overlay {
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.4s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        #modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        #modal-body {
+            transform: translateY(40px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 100%;
+            max-width: 1150px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #modal-overlay.active #modal-body {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.7s ease-out;
+        }
+        .reveal-item.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        @keyframes flag-drop { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+        @keyframes entrance-pop { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes text-reveal { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes hat-drop { 0% { transform: translateY(-400px) rotate(-30deg); opacity: 0; } 60% { transform: translateY(-10px) rotate(-30deg); opacity: 1; } 100% { transform: translateY(-10px) rotate(0); opacity: 1; } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        
+        /* Premium Soft-3D (Claymorphism) Cake */
+        .cake-container {
+            position: relative;
+            transform-style: preserve-3d;
+            padding-bottom: 2rem;
+        }
+        .cake-layer {
+            position: relative;
+            background: #ff758c;
+            border-radius: 20px 20px 50% 50%;
+            box-shadow: 
+                inset -10px -10px 20px rgba(0,0,0,0.1),
+                inset 10px 10px 20px rgba(255,255,255,0.4),
+                0 15px 30px rgba(255, 77, 109, 0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        .icing-top {
+            position: absolute;
+            top: -5px;
+            left: -2px;
+            width: calc(100% + 4px);
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.05);
+            z-index: 5;
+        }
+        .drip-soft {
+            position: absolute;
+            top: 5px;
+            width: 12px;
+            height: 18px;
+            background: #fff;
+            border-radius: 0 0 10px 10px;
+            z-index: 4;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+        }
+        .candle-stick {
+            width: 8px;
+            height: 40px;
+            background: repeating-linear-gradient(45deg, #fff, #fff 5px, #60a5fa 5px, #60a5fa 10px);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .flame {
+            width: 14px;
+            height: 24px;
+            background: radial-gradient(circle at bottom, #fff, #ffdb58 40%, #ff8c00 80%, transparent);
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker-soft 0.2s infinite alternate;
+            filter: drop-shadow(0 0 10px #ffdb58);
+            cursor: pointer;
+            z-index: 10;
+            transition: opacity 0.5s ease;
+            touch-action: manipulation;
+        }
+        /* Increase touch target for flame */
+        .flame::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            z-index: 20;
+        }
+        .flame.out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            transform: translateY(100px);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 9999;
+        }
+        #back-to-top.show {
+            transform: translateY(0);
+        }
+
+        /* Envelope Open State */
+        #gift-trigger.active-opening div[class*="border-t-red-700"] {
+            transform: rotateX(160deg) !important;
+        }
+        #gift-trigger.active-opening div[class*="bg-white"] {
+            transform: translateY(-5rem) !important;
+        }
+        @media (min-width: 768px) {
+            #gift-trigger.active-opening div[class*="bg-white"] {
+                transform: translateY(-9rem) !important;
+            }
+        }
+        @media (hover: hover) {
+            .hover-trigger:hover {
+                transform: scale(1.05);
+            }
+            .hover-trigger:active {
+                transform: scale(0.95);
+            }
+        }
+    </style>
 </head>
 
-<body>
-    <div id="wrapper">
-        <div class="flag__birthday">
-            <img src="./images/1.png" alt="" width="350" class="flag__left">
-            <img src="./images/1.png" alt="" width="350" class="flag__right">
+<body class="bg-hb-pink font-poppins min-h-screen">
+    <div id="scroll-progress"></div>
+
+    <!-- Floating Back to Top -->
+    <button id="back-to-top"
+        class="w-14 h-14 bg-hb-accent text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all outline-none z-[90]">
+        <i class="fa-solid fa-chevron-up text-xl"></i>
+    </button>
+
+    <!-- Parallax Decorations Layer -->
+    <div id="parallax-bg" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <div id="wrapper"
+        class="relative min-h-screen w-full bg-[radial-gradient(#fff_1.2px,transparent_1.2px)] bg-[size:32px_32px] overflow-hidden">
+
+        <!-- Header Flags -->
+        <div
+            class="flex justify-between w-full pointer-events-none absolute top-0 z-50 animate-[flag-drop_0.8s_ease-out_forwards]">
+            <img src="./images/1.png" alt="" class="w-[20%] md:w-[25%] max-w-[280px] rotate-[-10deg] -translate-y-4">
+            <img src="./images/1.png" alt=""
+                class="w-[20%] md:w-[25%] max-w-[280px] rotate-[10deg] -translate-y-4 scale-x-[-1]">
         </div>
-        <div class="content">
-            <div class="left">
-                <div class="title">
-                    <h1 class="happy">
-                        <span style="--t: 4s;">H</span>
-                        <span style="--t: 4.2s;">a</span>
-                        <span style="--t: 4.4s;">p</span>
-                        <span style="--t: 4.6s;">p</span>
-                        <span style="--t: 4.8s;">y</span>
-                    </h1>
-                    <h1 class="birthday">
-                        <span style="--t: 5s;">B</span>
-                        <span style="--t: 5.2s;">i</span>
-                        <span style="--t: 5.4s;">r</span>
-                        <span style="--t: 5.6s;">t</span>
-                        <span style="--t: 5.8s;">h</span>
-                        <span style="--t: 6s;">d</span>
-                        <span style="--t: 6.2s;">a</span>
-                        <span style="--t: 6.4s;">y</span>
-                    </h1>
-                    <div class="hat">
-                        <img src="./images/hat.png" alt="" width="130">
-                    </div>
-                </div>
-                <div class="date__of__birth">
-                    <span></span>
-                </div>
-                <div class="btn">
-                    <button id="btn__letter">
-                        <div class="mail">
-                            Click Here Madam
-                            <i class="fa-regular fa-envelope"></i>
+
+        <main
+            class="container mx-auto px-4 py-8 md:py-20 flex flex-col items-center justify-center min-h-screen gap-12 relative z-10">
+
+            <div class="flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-20 w-full max-w-7xl">
+
+                <!-- Left: Typography & Trigger -->
+                <div class="w-full lg:w-1/2 flex flex-col items-center text-center order-2 lg:order-1 px-4">
+                    <div class="relative mb-6">
+                        <div class="font-titan hero-title drop-shadow-xl scale-90 md:scale-100">
+                            <h1 class="text-white text-shadow-premium tracking-tighter inline-flex">
+                                <span class="animate-[text-reveal_0.4s_1s_forwards] opacity-0 translate-y-full">H</span>
+                                <span
+                                    class="animate-[text-reveal_0.4s_1.1s_forwards] opacity-0 translate-y-full">A</span>
+                                <span
+                                    class="animate-[text-reveal_0.4s_1.2s_forwards] opacity-0 translate-y-full">P</span>
+                                <span
+                                    class="animate-[text-reveal_0.4s_1.3s_forwards] opacity-0 translate-y-full">P</span>
+                                <span
+                                    class="animate-[text-reveal_0.4s_1.4s_forwards] opacity-0 translate-y-full">Y</span>
+                            </h1><br>
+                            <h1 class="text-shimmer tracking-tighter inline-flex">
+                                <span class="">B</span>
+                                <span class="">I</span>
+                                <span class="">R</span>
+                                <span class="">T</span>
+                                <span class="">H</span>
+                                <span class="">D</span>
+                                <span class="">A</span>
+                                <span class="">Y</span>
+                            </h1>
                         </div>
-                    </button>
-
-                </div>
-            </div>
-            <div class="right">
-                <div class="box__account">
-                    <div class="image">
-                        <img src="./images/unnamed.png" alt="">
-                    </div>
-                    <div class="name">
-                        <i class="fa-solid fa-heart"></i>
-                        <span>Dear Uma Nandini Gupta</span>
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <div class="balloon_one">
-                        <img width="100px" src="./images/balloon1.png" alt="">
-                    </div>
-                    <div class="balloon_two">
-                        <img width="100px" src="./images/balloon2.png" alt="">
-                    </div>
-                </div>
-                <div class="cricle">
-                    <div class="text__cricle">
-                        <span style="--i: 1;">h</span>
-                        <span style="--i: 2;">a</span>
-                        <span style="--i: 3;">p</span>
-                        <span style="--i: 4;">p</span>
-                        <span style="--i: 5;">y</span>
-                        <span style="--i: 6;">-</span>
-                        <span style="--i: 7;">b</span>
-                        <span style="--i: 8;">i</span>
-                        <span style="--i: 9;">r</span>
-                        <span style="--i: 10;">t</span>
-                        <span style="--i: 11;">h</span>
-                        <span style="--i: 12;">d</span>
-                        <span style="--i: 13;">a</span>
-                        <span style="--i: 14;">y</span>
-                        <span style="--i: 15;">-</span>
-                    </div>
-                    <i class="fa-solid fa-heart"></i>
-                </div>
-            </div>
-        </div>
-        <div class="decorate_star star1" style="--t: 15s;"></div>
-        <div class="decorate_star star2" style="--t: 15.2s;"></div>
-        <div class="decorate_star star3" style="--t: 15.4s;"></div>
-        <div class="decorate_star star4" style="--t: 15.6s;"></div>
-        <div class="decorate_star star5" style="--t: 15.8s;"></div>
-        <div class="decorate_flower--one" style="--t: 15s;">
-            <img width="20" src="./images/decorate_flower.png" alt="">
-        </div>
-        <div class="decorate_flower--two" style="--t: 15.3s;">
-            <img width="20" src="./images/decorate_flower.png" alt="">
-        </div>
-        <div class="decorate_flower--three" style="--t: 15.6s;">
-            <img width="20" src="./images/decorate_flower.png" alt="">
-        </div>
-        <div class="decorate_bottom">
-            <img src="./images/decorate.png" alt="" width="100">
-        </div>
-        <div class="smiley__icon">
-            <img src="./images/smiley_icon.png" alt="" width="100">
-        </div>
-
-        <!-- Photo Gallery Section -->
-        <div class="gallery-section">
-            <div class="gallery-header">
-                <h2 class="gallery-title">
-                    <span>✨</span> Precious Moments <span>✨</span>
-                </h2>
-                <p class="gallery-subtitle">Celebrating the beautiful soul you are</p>
-            </div>
-
-            <!-- Quotations Section -->
-            <div class="quotes-container">
-                <div class="quote-card">
-                    <i class="fa-solid fa-quote-left"></i>
-                    <p>"Today is a celebration of you and all the happiness you bring."</p>
-                    <span class="quote-author">- Birthday Wish</span>
-
-
-                </div>
-                <div class="quote-card">
-                    <i class="fa-solid fa-quote-left"></i>
-                    <p>"Another year older, another year more amazing."</p>
-                    <span class="quote-author">- From the Heart</span>
-                </div>
-                <div class="quote-card">
-                    <i class="fa-solid fa-quote-left"></i>
-                    <p>"May this year bring you smiles as beautiful as your heart."</p>
-                    <span class="quote-author">- Birthday Blessing</span>
-                </div>
-            </div>
-
-            <!-- Photo Gallery Grid -->
-            <div class="photo-gallery">
-                <div class="photo-item" data-aos="fade-up">
-                    <div class="photo-frame">
-                        <img src="./images/photo1.jpg" alt="Mehwish with flowers">
-                        <div class="photo-overlay">
-                            <p class="photo-caption">🌸 Beautiful Moments 🌸</p>
+                        <div class="absolute -top-12 -right-4 animate-[hat-drop_1.5s_2.5s_forwards] z-[-1] opacity-0">
+                            <img src="./images/hat.png" alt="" class="w-16 md:w-32">
                         </div>
                     </div>
-                </div>
-                <div class="photo-item" data-aos="fade-up" data-aos-delay="100">
-                    <div class="photo-frame">
-                        <img src="./images/photo2.jpg" alt="Mehwish at cafe">
-                        <div class="photo-overlay">
-                            <p class="photo-caption">☕ Sweet Memories ☕</p>
-                        </div>
+
+                    <div
+                        class="bg-hb-accent text-white px-8 py-2 md:px-12 md:py-3 rounded-full border-4 border-[#333] shadow-2xl flex items-center gap-4 opacity-0 animate-[entrance-pop_0.8s_1.5s_forwards] mb-12 hover:scale-105 transition-transform duration-300">
+                        <i class="fa-solid fa-star text-yellow-300 animate-pulse"></i>
+                        <span class="font-sriracha text-lg md:text-3xl font-bold tracking-widest uppercase">20
+                            January</span>
+                        <i class="fa-solid fa-star text-yellow-300 animate-bounce"></i>
                     </div>
-                </div>
-                <div class="photo-item" data-aos="fade-up" data-aos-delay="200">
-                    <div class="photo-frame">
-                        <img src="./images/photo3.jpg" alt="Mehwish in yellow">
-                        <div class="photo-overlay">
-                            <p class="photo-caption">💛 Sunshine Vibes 💛</p>
+
+                    <!-- Envelope -->
+                    <div
+                        class="opacity-0 animate-[entrance-pop_1s_2.2s_forwards] w-full flex justify-center z-[100] relative">
+                        <div id="gift-trigger"
+                            class="group relative cursor-pointer transform transition-all duration-300 touch-manipulation hover-trigger">
+                            <div class="relative w-64 h-40 md:w-80 md:h-52 bg-hb-dark-pink rounded-b-[2rem] shadow-2xl">
+                                <div
+                                    class="absolute top-0 left-0 w-0 h-0 border-l-[128px] md:border-l-[160px] border-l-transparent border-r-[128px] md:border-r-[160px] border-r-transparent border-t-[80px] md:border-t-[125px] border-t-red-700 origin-top group-hover:rotate-x-[160deg] transition-transform duration-700 z-30">
+                                </div>
+                                <div
+                                    class="absolute font-dancing top-20 md:top-14 left-4 w-56 h-32 md:w-72 md:h-44 bg-white rounded-2xl shadow-inner z-10 flex flex-col items-center justify-center group-hover:-translate-y-20 md:group-hover:-translate-y-36 transition-transform duration-500">
+                                    <span
+                                        class="font-dancing text-hb-accent text-2xl md:text-5xl font-bold text-center mt-2 animate-bounce">Open
+                                        Me ✨</span>
+                                </div>
+                                <div
+                                    class="absolute -top-6 left-1/2 -translate-x-1/2 w-14 h-14 md:w-16 md:h-16 bg-yellow-500 rounded-full border-4 border-yellow-600 shadow-xl z-40 flex items-center justify-center group-hover:opacity-0 transition-opacity">
+                                    <i class="fa-solid fa-heart text-red-700 text-2xl animate-pulse"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="photo-item" data-aos="fade-up" data-aos-delay="400">
-                    <div class="photo-frame">
-                        <img src="./images/photo5.jpg" alt="Mehwish elegant">
-                        <div class="photo-overlay">
-                            <p class="photo-caption">👑 Queen Energy 👑</p>
+                <!-- Right: Visual -->
+                <div class="w-full lg:w-1/2 flex flex-col items-center order-1 lg:order-2 px-4">
+                    <div class="relative opacity-0 animate-[entrance-pop_1s_0.8s_forwards]">
+                        <div
+                            class="tilt-card w-64 h-64 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] bg-white p-4 rounded-[40px] md:rounded-[60px] shadow-[15px_15px_0px_theme('colors.hb-accent')] md:shadow-[30px_30px_0px_theme('colors.hb-accent')] border-4 md:border-8 border-[#333] transition-transform duration-100 ease-out hover:rotate-1 shadow-2xl relative z-20">
+                            <img src="./images/unnamed.png" alt=""
+                                class="w-full h-full object-cover rounded-[30px] md:rounded-[50px]">
                         </div>
-                    </div>
-                </div>
-                <div class="photo-item" data-aos="fade-up" data-aos-delay="500">
-                    <div class="photo-frame">
-                        <img src="./images/photo6.jpg" alt="Mehwish in blue lehenga">
-                        <div class="photo-overlay">
-                            <p class="photo-caption">💙 Elegant Grace 💙</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-item" data-aos="fade-up" data-aos-delay="600">
-                    <div class="photo-frame">
-                        <img src="./images/photo7.jpg" alt="Mehwish in nature">
-                        <div class="photo-overlay">
-                            <p class="photo-caption">🌿 Free Spirit 🌿</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-item" data-aos="fade-up" data-aos-delay="700">
-                    <div class="photo-frame">
-                        <img src="./images/photo8.jpg" alt="Mehwish at cafe">
-                        <div class="photo-overlay">
-                            <p class="photo-caption">🌺 Pretty in Pink 🌺</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-item" data-aos="fade-up" data-aos-delay="800">
-                    <div class="photo-frame">
-                        <img src="./images/photo9.jpg" alt="Mehwish sunset">
-                        <div class="photo-overlay">
-                            <p class="photo-caption">🌅 Golden Hour 🌅</p>
+                        <div
+                            class="mt-10 flex justify-center w-full relative z-30 opacity-0 animate-[entrance-pop_0.8s_1.8s_forwards]">
+                            <div
+                                class="bg-white border-4 border-[#333] rounded-full px-8 py-3 md:px-12 md:py-5 shadow-2xl max-w-full text-center hover:scale-105 transition-transform">
+                                <span
+                                    class="font-dancing text-2xl md:text-4xl lg:text-5xl font-bold text-[#333] block">Dear
+                                    Uma Nandini Gupta</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Additional Birthday Wishes -->
-            <div class="wishes-section">
-                <div class="wish-card">
-                    <i class="fa-solid fa-heart"></i>
-                    <h3>May Your Day Be Filled With</h3>
-                    <ul class="wishes-list">
-                        <li>🎂 Endless Joy & Laughter</li>
-                        <li>💖 Love from Everyone Around You</li>
-                        <li>🌟 Dreams Coming True</li>
-                        <li>🎁 Beautiful Surprises</li>
-                        <li>✨ Magical Moments</li>
-                    </ul>
+            <!-- SCRATCH TO REVEAL SECTION - UNIQUE FEATURE -->
+            <div
+                class="w-full max-w-3xl mx-auto mt-32 px-4 text-center opacity-0 animate-[entrance-pop_1s_3s_forwards]">
+                <h2 class="font-dancing text-4xl md:text-6xl text-hb-accent mb-12">Scratch for a Secret Message! 🤫</h2>
+                <div
+                    class="relative group mx-auto max-w-md bg-white rounded-[2.5rem] p-4 shadow-2xl border-4 border-white overflow-hidden">
+                    <!-- Secret content underneath -->
+                    <div
+                        class="absolute inset-0 flex flex-col items-center justify-center p-8 bg-gradient-to-br from-pink-50 to-white text-center">
+                        <p class="font-dancing text-3xl md:text-4xl text-hb-accent font-bold mb-4">You are the Best! 💖
+                        </p>
+                        <p class="font-poppins text-gray-600 italic">"I wanted to let you know that you make every day
+                            feel like a celebration just by being you."</p>
+                    </div>
+                    <!-- Scratch Canvas -->
+                    <canvas id="scratch-canvas" class="relative z-10 w-full rounded-2xl shadow-inner"></canvas>
+                </div>
+                <p class="mt-6 font-poppins text-gray-400 text-sm animate-pulse">Swipe or use your mouse to scratch! ☝️
+                </p>
+            </div>
+
+
+            <!-- BIRTHDAY WISHES QUOTES SECTION -->
+            <div class="w-full max-w-7xl mx-auto mt-40 px-4 opacity-0 animate-[entrance-pop_1s_2.8s_forwards]">
+                <div class="text-center mb-16">
+                    <h2 class="font-dancing text-5xl md:text-8xl text-hb-accent mb-4 inline-block relative">
+                        Birthday Wishes
+                        <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-2 bg-hb-accent/30 rounded-full">
+                        </div>
+                    </h2>
+                    <p class="font-poppins text-gray-600 text-lg md:text-2xl mt-6 italic">"Heartfelt words for a special
+                        soul" ✨💖</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+                    <!-- Quote Cards -->
+                    <div
+                        class="tilt-card group relative bg-white/60 backdrop-blur-md p-8 rounded-[2.5rem] border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-300 opacity-0 animate-[entrance-pop_0.8s_3.2s_forwards]">
+                        <div
+                            class="absolute -top-4 -left-4 w-12 h-12 bg-hb-accent rounded-full flex items-center justify-center border-4 border-white shadow-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-quote-left text-white text-lg"></i>
+                        </div>
+                        <p class="font-poppins text-gray-700 text-lg md:text-xl italic leading-relaxed mb-6">"Age is
+                            merely the number of years the world has been enjoying you. Keep shining!"</p>
+                        <div class="flex items-center gap-3">
+                            <div class="h-px flex-1 bg-hb-accent/20"></div>
+                            <i class="fa-solid fa-heart text-hb-accent text-xl animate-pulse"></i>
+                            <div class="h-px flex-1 bg-hb-accent/20"></div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="tilt-card group relative bg-white/60 backdrop-blur-md p-8 rounded-[2.5rem] border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-300 opacity-0 animate-[entrance-pop_0.8s_3.4s_forwards]">
+                        <div
+                            class="absolute -top-4 -left-4 w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center border-4 border-white shadow-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-star text-white text-lg"></i>
+                        </div>
+                        <p class="font-poppins text-gray-700 text-lg md:text-xl italic leading-relaxed mb-6">"Your
+                            birthday is the first day of another 365-day journey. Make it count!"</p>
+                        <div class="flex items-center gap-3">
+                            <div class="h-px flex-1 bg-purple-300"></div>
+                            <i class="fa-solid fa-cake-candles text-purple-500 text-xl"></i>
+                            <div class="h-px flex-1 bg-purple-300"></div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="tilt-card group relative bg-white/60 backdrop-blur-md p-8 rounded-[2.5rem] border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-300 opacity-0 animate-[entrance-pop_0.8s_3.6s_forwards]">
+                        <div
+                            class="absolute -top-4 -left-4 w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center border-4 border-white shadow-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-sparkles text-white text-lg"></i>
+                        </div>
+                        <p class="font-poppins text-gray-700 text-lg md:text-xl italic leading-relaxed mb-6">"Life is a
+                            beautiful journey, and today we celebrate YOU! Happy Birthday!"</p>
+                        <div class="flex items-center gap-3">
+                            <div class="h-px flex-1 bg-yellow-300"></div>
+                            <i class="fa-solid fa-gift text-yellow-600 text-xl"></i>
+                            <div class="h-px flex-1 bg-yellow-300"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="boxMail">
-            <i class="fa-solid fa-xmark"></i>
-            <div class="boxMail-container">
-                <div class="card1">
-                    <div class="userImg">
-                        <img src="images/unnamed.png" alt="">
+            <!-- THE WISH CAKE -->
+            <div
+                class="w-full max-w-4xl mx-auto mt-40 px-4 opacity-0 animate-[entrance-pop_1s_4.2s_forwards] text-center">
+                <div class="mb-12">
+                    <h2 class="font-dancing text-4xl md:text-6xl text-shimmer mb-4">Make A Secret Wish... ✨</h2>
+                </div>
+
+                <div class="relative flex flex-col items-center py-20 cake-container">
+                    <div class="cake-aura"></div>
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div class="flex gap-14 mb-[-5px] relative z-20">
+                            <div class="candle-stick">
+                                <div class="flame" onclick="extinguish(this)"></div>
+                            </div>
+                            <div class="candle-stick">
+                                <div class="flame" onclick="extinguish(this)"></div>
+                            </div>
+                            <div class="candle-stick">
+                                <div class="flame" onclick="extinguish(this)"></div>
+                            </div>
+                        </div>
+                        <div class="cake-layer w-32 h-14 relative z-10">
+                            <div class="icing-top"></div>
+                        </div>
+                        <div class="cake-layer w-48 h-16 -mt-3 relative z-[9]">
+                            <div class="icing-top"></div>
+                        </div>
+                        <div class="cake-layer w-64 h-18 -mt-3 relative z-[8]">
+                            <div class="icing-top"></div>
+                        </div>
+                        <div class="w-80 h-3 bg-white/40 backdrop-blur-sm rounded-full -mt-2 shadow-xl"></div>
                     </div>
-                    <h4 class="username">
-                        To: Uma Nandini Gupta 💖<span class="underline"></span>
-                    </h4>
-                    <h3>
-                        Happy Birthday
-                    </h3>
-                    <div class="imageCute">
-                        <img src="cute1.png" alt="">
+
+                    <div id="wish-success"
+                        class="absolute inset-0 flex flex-col items-center justify-center z-30 opacity-0 pointer-events-none transition-all duration-1000 transform scale-50">
+                        <div
+                            class="bg-white/90 backdrop-blur-md p-8 rounded-[3rem] border-4 border-hb-accent shadow-2xl">
+                            <h3 class="font-dancing text-5xl text-hb-accent font-bold mb-2">Wish Made! 💖</h3>
+                            <p class="font-poppins text-gray-700 text-xl font-light italic">"Radiant & Beautiful! ✨🌹"
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div class="card2">
-                    <div class="card2-content">
-                        <h3>To You!</h3>
-                        <h2>
-                            Happy birthday 🥳🎂🥳 Uma. The day you came into my life, I wasn’t very attached at first,
-                            but day by day you grew closer to my heart. Today, you truly mean a lot to me.
-                            I wish I could take away some of the pain you’ve been carrying on your own,
-                            but please remember you’re never alone 🤗. You are always welcome to talk —
-                            about anything, especially the things you can’t say to others.
-                            May this year bring all your dreams closer to reality.
-                            Even if someone special couldn’t wish you today, I’m wishing you with all my heart.
-                            Happy Birthday 🎈🎂🎈 Sana.
-                            Don’t be sad, okay? Stay happy 😌
-                        </h2>
+            </div>
 
+            <div class="w-full text-center mt-32 opacity-0 animate-[entrance-pop_1s_5.5s_forwards]">
+                <h2
+                    class="font-dancing text-5xl md:text-8xl text-hb-accent mb-10 py-2 inline-block relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-24 after:h-2 after:bg-hb-accent after:rounded-full">
+                    Moments</h2>
+            </div>
 
-                        <div class="imageCute2">
-                            <img src="cute2.png" alt="">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-14 w-full max-w-7xl px-4 pb-24">
+                <script>
+                    const imgsArr = [
+                        { s: 'photo1.jpg', t: 'Pure Grace 🌸' }, { s: 'photo2.jpg', t: 'Sweet Memories ☕' },
+                        { s: 'photo3.jpg', t: 'Sunshine 💛' }, { s: 'photo4.jpg', t: 'Classy 👑' },
+                        { s: 'photo5.jpg', t: 'Jewel 💎' }, { s: 'photo6.jpg', t: 'Angel 🌹' },
+                        { s: 'photo7.jpg', t: 'Spirit 🌿' }, { s: 'photo8.jpg', t: 'Dreamer 🎀' },
+                        { s: 'photo9.jpg', t: 'Golden 🌅' }
+                    ];
+                    document.write(imgsArr.map((m, i) => `
+                        <div class="tilt-card group relative glass-card p-3 rounded-[35px] md:rounded-[40px] overflow-hidden opacity-0 animate-[entrance-pop_0.8s_${3.5 + (i * 0.15)}s_forwards] cursor-pointer">
+                            <div class="relative overflow-hidden rounded-[28px] md:rounded-[30px] aspect-square">
+                                <img src="./images/${m.s}" alt="" class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-black/10 group-hover:opacity-0 transition-opacity"></div>
+                            </div>
+                            <div class="absolute inset-x-0 bottom-0 p-6 md:p-8 bg-gradient-to-t from-hb-accent via-hb-accent/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                                <p class="font-dancing text-white text-2xl md:text-3xl font-bold text-center">${m.t}</p>
+                            </div>
+                        </div>
+                    `).join(''));
+                </script>
+            </div>
+
+            <footer class="w-full mt-20 pb-20 opacity-0 animate-[entrance-pop_1s_5s_forwards]">
+                <div class="flex flex-col items-center gap-8 relative">
+                    <div class="flex items-center gap-5 w-full max-w-2xl px-4">
+                        <div class="h-px flex-1 bg-gradient-to-r from-transparent to-hb-accent/30"></div>
+                        <i class="fa-solid fa-heart text-hb-accent text-2xl animate-pulse"></i>
+                        <div class="h-px flex-1 bg-gradient-to-l from-transparent to-hb-accent/30"></div>
+                    </div>
+                    <div class="text-center space-y-4 px-4">
+                        <h2 class="font-dancing text-4xl md:text-6xl text-hb-accent font-bold">Uma Nandini Gupta</h2>
+                        <p class="font-poppins text-gray-400 text-sm md:text-xl uppercase tracking-[0.4em]">Celebrating
+                            20 January 💖</p>
+                    </div>
+                </div>
+            </footer>
+        </main>
+
+        <!-- PORTRAIT BILLBOARD MODAL -->
+        <div id="modal-overlay" class="fixed inset-0 bg-black/95 backdrop-blur-3xl z-[10000]">
+            <button id="modal-close-btn"
+                class="absolute top-4 right-4 md:top-8 md:right-10 w-12 h-12 md:w-20 md:h-20 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-all z-[11000]">
+                <i class="fa-solid fa-xmark text-2xl md:text-5xl text-white"></i>
+            </button>
+            <div id="modal-body">
+                <div class="iridescent-border h-full flex flex-col overflow-hidden">
+                    <div
+                        class="glass flex flex-col lg:flex-row h-full rounded-[2rem] md:rounded-[3.5rem] p-5 sm:p-10 md:p-16 overflow-y-auto no-scrollbar relative gap-8">
+                        <!-- Side A -->
+                        <div
+                            class="w-full lg:w-[38%] flex flex-col items-center justify-start text-center space-y-4 pt-4">
+                            <div class="relative group">
+                                <div
+                                    class="w-36 h-36 sm:w-48 sm:h-48 lg:w-[280px] lg:h-[280px] rounded-full border-[8px] border-white shadow-2xl overflow-hidden">
+                                    <img src="./images/unnamed.png" alt="" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <h3 class="font-dancing text-4xl lg:text-6xl text-hb-accent font-bold">Happy Birthday</h3>
+                        </div>
+                        <!-- Side B -->
+                        <div class="w-full lg:w-[62%] flex flex-col justify-start space-y-8 pt-4">
+                            <div
+                                class="space-y-6 lg:space-y-8 font-poppins text-base sm:text-xl lg:text-2xl text-gray-700 leading-relaxed italic">
+                                <p class="reveal-item">Happy birthday 🥳 <span
+                                        class="text-hb-accent font-medium uppercase font-titan">Uma</span>.</p>
+                                <p class="reveal-item">Every single day, you grow more special to my heart. You truly
+                                    mean everything to me.</p>
+                                <p class="reveal-item">Remember you're never alone 🤗. I am here for you, now and
+                                    always.</p>
+                            </div>
+                            <div class="reveal-item pt-4">
+                                <p class="font-dancing text-3xl lg:text-6xl text-hb-accent font-bold">"Stay happy!" 😌
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -278,107 +629,149 @@
         </div>
     </div>
 
+    <script>
+        $(document).ready(function () {
+            // Scroll Progress
+            $(window).scroll(function () {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                $('#scroll-progress').css('width', scrolled + '%');
+
+                // Back to Top Button
+                if (winScroll > 500) $('#back-to-top').addClass('show');
+                else $('#back-to-top').removeClass('show');
+            });
+
+            $('#back-to-top').click(() => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+            // 3D Tilt Effect
+            const isMobile = window.innerWidth < 768;
+            if (!isMobile) {
+                $('.tilt-card').on('mousemove', function (e) {
+                    const el = $(this), w = el.outerWidth(), h = el.outerHeight();
+                    const x = e.pageX - el.offset().left - w / 2, y = e.pageY - el.offset().top - h / 2;
+                    el.css('transform', `perspective(1000px) rotateX(${(y / h) * 15}deg) rotateY(${-(x / w) * 15}deg) scale(1.05)`);
+                }).on('mouseleave', function () { $(this).css('transform', 'perspective(1000px) rotateX(0) rotateY(0) scale(1)'); });
+            }
+
+            // Scratch Card Logic
+            const canvas = document.getElementById('scratch-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 400; canvas.height = 250;
+
+            ctx.fillStyle = '#ff758c';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#fff';
+            ctx.font = '30px Poppins';
+            ctx.textAlign = 'center';
+            ctx.fillText('SCRATCH ME!', canvas.width / 2, canvas.height / 2 + 10);
+
+            let isDrawing = false;
+            function scratch(e) {
+                if (!isDrawing) return;
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.pageX || e.touches[0].pageX) - rect.left - window.scrollX;
+                const y = (e.pageY || e.touches[0].pageY) - rect.top - window.scrollY;
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath(); ctx.arc(x, y, 25, 0, Math.PI * 2); ctx.fill();
+            }
+            $(canvas).on('mousedown touchstart', () => isDrawing = true);
+            $(window).on('mouseup touchend', () => isDrawing = false);
+            $(canvas).on('mousemove touchmove', scratch);
+
+            // Modal
+            $('#gift-trigger').on('click', function () {
+                $(this).addClass('active-opening');
+
+                setTimeout(() => {
+                    $('#modal-overlay').addClass('active');
+                    $('body').addClass('overflow-hidden');
+                    $('.reveal-item').each(function (i) {
+                        setTimeout(() => $(this).addClass('show'), 600 + (i * 350));
+                    });
+                }, 800);
+            });
+
+            $('#modal-close-btn').on('click', () => {
+                $('#modal-overlay').removeClass('active');
+                $('body').removeClass('overflow-hidden');
+                setTimeout(() => {
+                    $('.reveal-item').removeClass('show');
+                    $('#gift-trigger').removeClass('active-opening');
+                }, 400);
+            });
+
+            // Parallax Ornaments
+            function createOrnaments() {
+                const icons = ['fa-heart', 'fa-star', 'fa-cake-candles', 'fa-gift', 'fa-sparkles'];
+                const colors = ['#fbc2eb', '#a6c1ee', '#fda085', '#8fd3f4'];
+                for (let i = 0; i < 15; i++) {
+                    const icon = icons[Math.floor(Math.random() * icons.length)];
+                    const $o = $(`<i class="fa-solid ${icon} decoration"></i>`);
+                    const size = Math.random() * 20 + 15;
+                    const left = Math.random() * 100, top = Math.random() * 100;
+                    $o.css({ left: left + '%', top: top + '%', fontSize: size + 'px', color: colors[Math.floor(Math.random() * colors.length)] });
+                    $('#parallax-bg').append($o);
+                }
+            }
+            createOrnaments();
+
+            $(window).on('scroll', () => {
+                const s = window.scrollY;
+                $('.decoration').each(function (i) {
+                    const speed = (i % 3 + 1) * 0.1;
+                    $(this).css('transform', `translateY(${s * speed}px) rotate(${s * 0.1}deg)`);
+                });
+            });
+
+            // Cursor Magic Trail
+            $(document).on('mousemove', (e) => {
+                if (Math.random() > 0.8) {
+                    const $h = $('<i class="fa-solid fa-heart absolute pointer-events-none text-hb-accent opacity-50 z-[9999]"></i>')
+                        .css({ left: e.pageX + 'px', top: e.pageY + 'px', fontSize: (Math.random() * 10 + 5) + 'px' });
+                    $('body').append($h);
+                    $h.animate({ top: '-=50', left: '+=' + (Math.random() * 40 - 20), opacity: 0 }, 1000, () => $h.remove());
+                }
+            });
+        });
+
+        // Cake
+        let extinguishedCount = 0;
+        const wishQuotes = [
+            "Your presence makes the world kinder and brighter. ✨",
+            "May this year bring you purpose, peace, and happiness. 🌱",
+            "You touch lives in ways you may never fully see. 💖",
+            "Never forget how rare and valuable you truly are. 👑",
+            "May every day ahead give you a reason to smile. 🎂",
+            "May your heart always feel loved, safe, and understood. ❤️",
+            "You are worthy of every good thing life has to offer. 🌍"
+        ];
+
+
+        function extinguish(element) {
+            if ($(element).hasClass('out')) return;
+            $(element).addClass('out');
+            extinguishedCount++;
+            if (extinguishedCount === 3) {
+                // Wait 4 seconds before showing the message
+                setTimeout(() => {
+                    const randomQuote = wishQuotes[Math.floor(Math.random() * wishQuotes.length)];
+                    $('#wish-success p').text(`"${randomQuote}"`);
+                    $('#wish-success').removeClass('pointer-events-none').css({ opacity: 1, transform: 'scale(1)' });
+
+                    // Show for 5 seconds then reset
+                    setTimeout(() => {
+                        $('#wish-success').addClass('pointer-events-none').css({ opacity: 0, transform: 'scale(0.5)' });
+                        setTimeout(() => {
+                            $('.flame').removeClass('out');
+                            extinguishedCount = 0;
+                        }, 1000);
+                    }, 5000);
+                }, 4000);
+            }
+        }
+    </script>
 </body>
-<script>
-    let datetxt = "20 Jan";
-    let datatxtletter = "My love. You are a very special girl. I always silently thank you for coming into my life. Today, I wish you all the best, lots of health, and lots of joy. I always hope we will celebrate many more birthdays like this together. Happy birthday to you.💕";
-    let titleLetter = "To you";
-    let charArrDate = datetxt.split('');
-    let charArrDateLetter = datatxtletter.split('');
-    let charArrTitle = titleLetter.split('');
-    let currentIndex = 0;
-    let currentIndexLetter = 0;
-    let currentIndexTitle = 0;
-    let date__of__birth = document.querySelector(".date__of__birth span");
-    let text__letter = document.querySelector(".text__letter p");
-    setTimeout(function () {
-        timeDatetxt = setInterval(function () {
-            if (currentIndex < charArrDate.length) {
-                date__of__birth.textContent += charArrDate[currentIndex];
-                currentIndex++;
-            }
-            else {
-                let i = document.createElement("i");
-                i.className = "fa-solid fa-star"
-                document.querySelector(".date__of__birth").prepend(i)
-                document.querySelector(".date__of__birth").appendChild(i.cloneNode(true))
-                clearInterval(timeDatetxt)
-            }
-        }, 100)
-    }, 12000)
-
-    var intervalContent;
-    var intervalTitle;
-    $("#btn__letter").on("click", function () {
-        $(".box__letter").slideDown()
-        setTimeout(function () {
-            $(".letter__border").slideDown();
-        }, 1000)
-        setTimeout(function () {
-            intervalTitle = setInterval(function () {
-                if (currentIndexTitle < charArrTitle.length) {
-                    document.querySelector(".title__letter").textContent += charArrTitle[currentIndexTitle];
-                    let i = document.createElement("i");
-                    i.className = "fa-solid fa-heart"
-                    document.querySelector(".title__letter").appendChild(i)
-                    currentIndexTitle++;
-                }
-                else {
-                    clearInterval(intervalTitle)
-                }
-            }, 100)
-        }, 2000)
-        setTimeout(function () {
-            document.querySelector("#heart__letter").classList.add("animationOp");
-            document.querySelector(".love__img").classList.add("animationOp");
-            document.querySelector("#mewmew").classList.add("animationOp");
-        }, 2800)
-        setTimeout(function () {
-            document.querySelectorAll(".heart").forEach((item) => {
-                item.classList.add("animation")
-            })
-        }, 3500)
-        setTimeout(function () {
-            intervalContent = setInterval(function () {
-                if (currentIndexLetter < charArrDateLetter.length) {
-                    text__letter.textContent += charArrDateLetter[currentIndexLetter];
-                    currentIndexLetter++;
-                }
-                else {
-                    clearInterval(intervalContent)
-                }
-            }, 50)
-        }, 6000)
-    })
-    $(".close").on("click", function () {
-        clearInterval(intervalContent)
-        document.querySelector(".title__letter").textContent = "";
-        text__letter.textContent = "";
-        currentIndexLetter = 0
-        currentIndexTitle = 0
-        document.querySelector("#heart__letter").classList.remove("animationOp");
-        document.querySelector(".love__img").classList.remove("animationOp");
-        document.querySelector("#mewmew").classList.remove("animationOp");
-        document.querySelectorAll(".heart").forEach((item) => {
-            item.classList.remove("animation")
-        })
-        $(".box__letter").slideUp();
-        $(".letter__border").slideUp();
-    })
-
-
-
-    let mailBox = document.querySelector('.mail')
-    let boxmail = document.querySelector('.boxMail')
-    var close = document.querySelector('.fa-xmark')
-    mailBox.onclick = function () {
-        mailBox.classList.toggle('active')
-        boxmail.classList.add('active')
-    }
-
-    close.addEventListener('click', function () {
-        boxmail.classList.remove('active')
-    })
-</script>
 
 </html>
