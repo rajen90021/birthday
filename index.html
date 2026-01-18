@@ -183,7 +183,7 @@
         }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
         @keyframes flag-drop { from { transform: translateY(-100%); } to { transform: translateY(0); } }
@@ -315,7 +315,7 @@
     <div id="parallax-bg" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
 
     <div id="wrapper"
-        class="relative min-h-screen w-full bg-[radial-gradient(#fff_1.2px,transparent_1.2px)] bg-[size:32px_32px] overflow-hidden">
+        class="relative min-h-screen w-full bg-[radial-gradient(#fff_1.2px,transparent_1.2px)] bg-[size:32px_32px] overflow-x-hidden">
 
         <!-- Header Flags -->
         <div
@@ -616,11 +616,7 @@
                                         <i
                                             class="fa-solid fa-star text-yellow-500 text-xl group-hover:scale-125 transition-transform duration-300"></i>
                                     </div>
-                                    <div
-                                        class="w-14 h-14 bg-white/60 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 hover:rotate-6 transition-all cursor-pointer group">
-                                        <i
-                                            class="fa-solid fa-sparkles text-purple-500 text-xl group-hover:scale-125 transition-transform duration-300"></i>
-                                    </div>
+
                                 </div>
 
                                 <div class="text-center md:text-right max-w-sm">
