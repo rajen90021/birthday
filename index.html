@@ -192,6 +192,67 @@
         @keyframes hat-drop { 0% { transform: translateY(-400px) rotate(-30deg); opacity: 0; } 60% { transform: translateY(-10px) rotate(-30deg); opacity: 1; } 100% { transform: translateY(-10px) rotate(0); opacity: 1; } }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         
+        /* 3D Cube Styles */
+        .cube-container {
+            width: 280px;
+            height: 280px;
+            perspective: 1000px;
+            margin: 50px auto;
+        }
+        @media (max-width: 768px) {
+            .cube-container { width: 220px; height: 220px; }
+        }
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-15deg) rotateY(15deg);
+            transition: transform 0.1s;
+        }
+        .cube-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 5px solid #ff1a4a;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .cube-face img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* Cube Face Positions */
+        .front  { transform: rotateY(0deg) translateZ(140px); }
+        .back   { transform: rotateY(180deg) translateZ(140px); }
+        .right  { transform: rotateY(90deg) translateZ(140px); }
+        .left   { transform: rotateY(-90deg) translateZ(140px); }
+        .top    { transform: rotateX(90deg) translateZ(140px); }
+        .bottom { transform: rotateX(-90deg) translateZ(140px); }
+
+        @media (max-width: 768px) {
+            .front  { transform: rotateY(0deg) translateZ(110px); }
+            .back   { transform: rotateY(180deg) translateZ(110px); }
+            .right  { transform: rotateY(90deg) translateZ(110px); }
+            .left   { transform: rotateY(-90deg) translateZ(110px); }
+            .top    { transform: rotateX(90deg) translateZ(110px); }
+            .bottom { transform: rotateX(-90deg) translateZ(110px); }
+        }
+
+        .cube-label {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+        
         /* Premium Soft-3D (Claymorphism) Cake */
         .cake-container {
             position: relative;
@@ -551,6 +612,35 @@
                     Moments</h2>
             </div>
 
+            <!-- UNIQUE NEW SECTION: 3D MEMORY CUBE -->
+            <div
+                class="w-full mt-40 py-24 relative overflow-hidden rounded-[4rem] bg-gradient-to-b from-white via-pink-50 to-hb-pink shadow-inner">
+                <div class="container mx-auto px-4 text-center relative z-10">
+                    <h2 class="font-dancing text-5xl md:text-7xl text-hb-accent mb-6">Interactive Keepsake 🎁</h2>
+                    <p class="font-poppins text-gray-500 max-w-2xl mx-auto mb-16">
+                        Spin the cube to see your beautiful memories from every angle! Drag or swipe to rotate.
+                    </p>
+
+                    <div class="cube-container select-none touch-none scale-90 md:scale-100">
+                        <div id="memory-cube" class="cube">
+                            <!-- Using placeholders since original photos are local -->
+                            <div class="cube-face front"><img src="./images/photo1.jpg" alt=""></div>
+                            <div class="cube-face back"><img src="./images/photo2.jpg" alt=""></div>
+                            <div class="cube-face right"><img src="./images/photo3.jpg" alt=""></div>
+                            <div class="cube-face left"><img src="./images/photo4.jpg" alt=""></div>
+                            <div class="cube-face top"><img src="./images/photo5.jpg" alt=""></div>
+                            <div class="cube-face bottom"><img src="./images/photo6.jpg" alt=""></div>
+                        </div>
+                        <div class="cube-label">
+                            <span
+                                class="bg-hb-accent text-white px-6 py-2 rounded-full font-sriracha animate-pulse shadow-lg flex items-center gap-2">
+                                <i class="fa-solid fa-arrows-up-down-left-right text-sm"></i>Drag to Spin
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-14 w-full max-w-7xl px-4 pb-24">
                 <script>
                     const imgsArr = [
@@ -839,6 +929,50 @@
                 }
                 extinguish(this);
             });
+
+            // 3D Cube Rotation Logic
+            let rotationX = -15;
+            let rotationY = 15;
+            let isDraggingCube = false;
+            let lastX, lastY;
+
+            const handleCubeMove = (clientX, clientY) => {
+                if (!isDraggingCube) return;
+                const deltaX = clientX - lastX;
+                const deltaY = clientY - lastY;
+
+                rotationY += deltaX * 0.5;
+                rotationX -= deltaY * 0.5;
+
+                $('#memory-cube').css('transform', `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`);
+                lastX = clientX;
+                lastY = clientY;
+            };
+
+            const $cubeContainer = $('.cube-container');
+
+            $cubeContainer.on('mousedown touchstart', function (e) {
+                isDraggingCube = true;
+                const evt = e.type === 'touchstart' ? e.originalEvent.touches[0] : e;
+                lastX = evt.clientX;
+                lastY = evt.clientY;
+            });
+
+            $(window).on('mousemove touchmove', function (e) {
+                if (!isDraggingCube) return;
+                const evt = e.type === 'touchmove' ? e.originalEvent.touches[0] : e;
+                handleCubeMove(evt.clientX, evt.clientY);
+            });
+
+            $(window).on('mouseup touchend', () => { isDraggingCube = false; });
+
+            // Auto-rotate effect
+            setInterval(() => {
+                if (!isDraggingCube) {
+                    rotationY += 0.5;
+                    $('#memory-cube').css('transform', `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`);
+                }
+            }, 50);
         });
 
         // Cake
