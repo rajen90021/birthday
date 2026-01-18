@@ -416,17 +416,20 @@
 
             <!-- SCRATCH TO REVEAL SECTION - UNIQUE FEATURE -->
             <div
-                class="w-full max-w-3xl mx-auto mt-32 px-4 text-center opacity-0 animate-[entrance-pop_1s_3s_forwards]">
-                <h2 class="font-dancing text-4xl md:text-6xl text-hb-accent mb-12">Scratch for a Secret Message! 🤫</h2>
+                class="w-full max-w-3xl mx-auto mt-20 md:mt-32 px-4 text-center opacity-0 animate-[entrance-pop_1s_3s_forwards]">
+                <h2 class="font-dancing text-4xl md:text-6xl text-hb-accent mb-8 md:mb-12">Scratch for a Secret Message!
+                    🤫</h2>
                 <div
-                    class="relative group mx-auto max-w-md bg-white rounded-[2.5rem] p-4 shadow-2xl border-4 border-white overflow-hidden">
+                    class="relative group mx-auto max-w-md bg-white rounded-[2rem] md:rounded-[2.5rem] p-2 md:p-4 shadow-2xl border-4 border-white overflow-hidden">
                     <!-- Secret content underneath -->
                     <div
-                        class="absolute inset-0 flex flex-col items-center justify-center p-8 bg-gradient-to-br from-pink-50 to-white text-center">
-                        <p class="font-dancing text-3xl md:text-4xl text-hb-accent font-bold mb-4">You are the Best! 💖
-                        </p>
-                        <p class="font-poppins text-gray-600 italic">"I wanted to let you know that you make every day
-                            feel like a celebration just by being you."</p>
+                        class="absolute inset-0 flex flex-col items-center justify-center p-3 sm:p-8 bg-gradient-to-br from-pink-50 to-white text-center">
+                        <p class="font-dancing text-2xl sm:text-4xl text-hb-accent font-bold mb-1 sm:mb-4">You are the
+                            Best! 💖</p>
+                        <p
+                            class="font-poppins text-[10px] sm:text-base text-gray-600 italic leading-tight sm:leading-relaxed px-4">
+                            "I wanted to let you know that you make every day feel like a celebration just by being
+                            you."</p>
                     </div>
                     <!-- Scratch Canvas -->
                     <canvas id="scratch-canvas" class="relative z-10 w-full rounded-2xl shadow-inner"></canvas>
@@ -743,13 +746,27 @@
             let isDrawing = false;
             function scratch(e) {
                 if (!isDrawing) return;
+                if (e.type === 'touchmove') e.preventDefault();
+
                 const rect = canvas.getBoundingClientRect();
-                const x = (e.pageX || e.touches[0].pageX) - rect.left - window.scrollX;
-                const y = (e.pageY || e.touches[0].pageY) - rect.top - window.scrollY;
+                const clientX = (e.clientX || (e.touches && e.touches[0].clientX));
+                const clientY = (e.clientY || (e.touches && e.touches[0].clientY));
+
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+
+                const x = (clientX - rect.left) * scaleX;
+                const y = (clientY - rect.top) * scaleY;
+
                 ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath(); ctx.arc(x, y, 25, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x, y, 30, 0, Math.PI * 2);
+                ctx.fill();
             }
-            $(canvas).on('mousedown touchstart', () => isDrawing = true);
+            $(canvas).on('mousedown touchstart', (e) => {
+                isDrawing = true;
+                scratch(e); // Start scratching immediately on click/touch
+            });
             $(window).on('mouseup touchend', () => isDrawing = false);
             $(canvas).on('mousemove touchmove', scratch);
 
